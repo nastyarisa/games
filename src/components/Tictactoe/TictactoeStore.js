@@ -37,6 +37,8 @@ export class TictactoeStore {
         } else {
             this.whoWalkNow = this.whoWalkNow === 'cross' ? 'zero' : 'cross';
         }
+        // newData[rIndex][cIndex] = {};
+        // newData[rIndex][cIndex].type = this.whoWalkNow;
         newData[rIndex][cIndex] = this.whoWalkNow;
         return newData;
     }
@@ -74,7 +76,7 @@ export class TictactoeStore {
         // Заполнен один из рядов по вертикали
         let verticalData = [[],[],[]];
         data.forEach((row, index)=>{
-            if (victory) return;
+            // if (victory) return;
             for (let i = 0; i < row.length; i++) {
                 verticalData[i][index] = row[i]
             }
@@ -100,6 +102,53 @@ export class TictactoeStore {
             if (arr[i] !== prevElem) return false;
         }
         return true;
+    }
+
+    findWinner = (data) => {
+        let winner = null;
+        if (!data.length) return false;
+        //Заполнена диагональ слева направо
+        let leftDiagonal = [];
+        for (let i = 0; i < data.length; i++) {
+            leftDiagonal.push(data[i][i]);
+        }
+        if (this.checkRow(leftDiagonal)) {
+            winner = leftDiagonal[0];
+            return winner;
+        };
+    
+        // Заполнен диагональ справа налево
+        let rightDiagonal = [];
+        for (let i = 0; i < data.length; i++) {
+            rightDiagonal.push(data[data.length-1-i][i]);
+        }
+        if (this.checkRow(rightDiagonal)) {
+            winner = rightDiagonal[0];
+            return winner;
+        };
+    
+        // Заполнен один из рядов по вертикали
+        let verticalData = [[],[],[]];
+        data.forEach((row, index)=>{
+            for (let i = 0; i < row.length; i++) {
+                verticalData[i][index] = row[i]
+            }
+        });
+        for (let i = 0; i < verticalData.length; i++) {
+            if (this.checkRow(verticalData[i])) {
+                winner = verticalData[i][0];
+                return winner;
+            };
+        }
+    
+        // Заполнен один из рядов по горизонтали
+        for (let i = 0; i < data.length; i++) {
+           if (this.checkRow(data[i])) {
+            winner = data[i][0];
+            return winner;
+           };
+        }
+        return winner;
     }
 }
 

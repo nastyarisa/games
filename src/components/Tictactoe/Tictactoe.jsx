@@ -50,11 +50,13 @@ export class Tictactoe extends React.Component {
     render() {
         let data = this.state.data;
         const message = () => {
+            let winner = this.store.findWinner(data);
             if (this.store.deadHeat(data)) {
                return <p className={s.message}>Игра окончена! Закончились ходы.</p>
             }
-            if (this.store.isVictory(data)) {
-                return <p className={s.message}>Игра окончена! Победа!</p>
+            if (winner) {
+                return <p className={s.message}>Игра окончена! 
+                Победил {winner === 'cross' ? 'крестик' : 'нолик'}!</p>
              }
             return null;
         }
