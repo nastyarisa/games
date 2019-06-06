@@ -1,5 +1,3 @@
-import {computed} from 'mobx';
-
 export class TictactoeStore {
     size = 3;
     data = [];
@@ -17,69 +15,101 @@ export class TictactoeStore {
                 this.data[i][j] = null;
             }
         }
-        console.log('data', this.data)
     }
 
-    handlerStroke = (rIndex, cIndex) => {
-        let target = this.data[rIndex][cIndex];
-        console.log('target', target);
+    getNullData = () => {
+        let data = [];
+        if (!this.size) return;
+        for (let i = 0; i < this.size; i++) {
+              data[i] = [];
+            for (let j = 0; j < this.size; j++) {
+              data[i][j] = null;
+            }
+        }
+        return data;
     }
 
-    getStyle = (rIndex, cIndex) => {
-        let target = this.data[rIndex][cIndex];
-        if (!target) return "";
-        return target;
+    handlerStroke = (rIndex, cIndex, data) => {
+        let newData = copyArray(data);
+        if (!this.gameStarted) {
+            this.gameStarted = true;
+            this.whoWalkNow = 'cross';
+        } else {
+            this.whoWalkNow = this.whoWalkNow === 'cross' ? 'zero' : 'cross';
+        }
+        newData[rIndex][cIndex] = this.whoWalkNow;
+        return newData;
     }
 
-    @computed
-    get checkVictory() {
+    deadHeat = (data) => {
+        if (!data.length) return false;
+        for (let i = 0; i < data.length; i++) {
+            let row = data[i];
+            for (let j = 0; j < row.length; j++) {
+                if (!row[j]) {
+                    return false
+                };
+            }
+        }
+        return true;
+    }
+
+    isVictory = (data) => {
         let victory = false;
-        // Заполнена диагональ слева направо
+        if (!data.length) return false;
+        //Заполнена диагональ слева направо
         let leftDiagonal = [];
-        this.data.forEach((item, index) => {
-            leftDiagonal.push(item[index]);
-        })
-        let item = leftDiagonal[0];
-        victory = item ? leftDiagonal.every((cell) => {  
-            return cell === item;
-        }) : false;
-        if (victory) return victory;
+        for (let i = 0; i < data.length; i++) {
+            leftDiagonal.push(data[i][i]);
+        }
+        if (this.checkRow(leftDiagonal)) victory = true;
     
         // Заполнен диагональ справа налево
         let rightDiagonal = [];
-        this.data.reverse().forEach((item, index) => {
-            rightDiagonal.push(item[index]);
-        })
-        item = rightDiagonal[0];
-        victory = item ? rightDiagonal.every((cell) => {  
-            return cell === item;
-        }) : false;
-        if (victory) return victory;
+        for (let i = 0; i < data.length; i++) {
+            rightDiagonal.push(data[data.length-1-i][i]);
+        }
+        if (this.checkRow(rightDiagonal)) victory = true;
     
-        // Проверка вертикали
+        // Заполнен один из рядов по вертикали
         let verticalData = [[],[],[]];
-        this.data.forEach((row, index, arr)=>{
+        data.forEach((row, index)=>{
             if (victory) return;
             for (let i = 0; i < row.length; i++) {
                 verticalData[i][index] = row[i]
             }
         });
-        checkRows(verticalData);
-        if (victory) return victory;
+        for (let i = 0; i < verticalData.length; i++) {
+            if (this.checkRow(verticalData[i])) victory = true;
+        }
     
         // Заполнен один из рядов по горизонтали
-        checkRows(this.data);
-        if (victory) return victory;
-    
-        function checkRows(arr) {
-            arr.forEach((row, index, arr) => {
-                if (victory) return;
-                let item = row[0];
-                if (!item) return;
-                victory = row.every((cell) => {  
-                    return cell === item;
-                })
-            });
+        for (let i = 0; i < data.length; i++) {
+           if (this.checkRow(data[i])) victory = true;
         }
+        return victory;
     }
+
+    //Проверяем что в одномерном массиве все элементы одинаковые
+
+    checkRow = (arr) => {
+        if (!arr.length) return false;
+        let prevElem = arr[0];
+        if (!prevElem) return false;
+        for (let i = 0; i < arr.length; i++) {
+            if (arr[i] !== prevElem) return false;
+        }
+        return true;
+    }
+}
+
+function copyArray(arr) {
+    if (arr instanceof Array) {
+        let copy = [];
+        for (let i = 0; i < arr.length; i++) {
+            copy[i] = copyArray(arr[i]);
+        }
+        return copy;
+    }
+    return arr;
 }
