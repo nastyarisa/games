@@ -92,6 +92,71 @@ export class TictactoeStore {
         return true;
     }
 
+    isWinner = (rIndex, cIndex, data) => {
+        let isWinner = false;
+        if (!data.length) return false;
+    
+        //Заполнена диагональ слева направо
+        let found = false;
+        let leftDiagonal = [];
+        for (let i = 0; i < data.length; i++) {
+            if (rIndex === i && cIndex === i) {
+                found = true;
+            }
+            leftDiagonal.push(data[i][i]);
+        }
+        if (this.checkRow(leftDiagonal) && found) {
+            isWinner = true;
+        };
+
+        // Заполнен диагональ справа налево
+        let foundR = false;
+        let rightDiagonal = [];
+        for (let i = 0; i < data.length; i++) {
+            if (rIndex === data.length-1-i && cIndex === i) {
+                foundR = true;
+            }
+            rightDiagonal.push(data[data.length-1-i][i]);
+        }
+        if (this.checkRow(rightDiagonal) && foundR) {
+            isWinner = true;
+        }
+
+        // Заполнен один из рядов по вертикали
+        // let foundV = false;
+        // let verticalData = [[],[],[]];
+        // data.forEach((row, index) => {
+        //     for (let i = 0; i < row.length; i++) {
+        //         verticalData[i][index] = row[i]
+        //         if (rIndex === i && cIndex === index) {
+        //             foundV = true
+        //         }
+        //     }
+        // });
+        // for (let i = 0; i < verticalData.length; i++) {
+        //     if (this.checkRow(verticalData[i]) && foundV) {
+        //         isWinner = true;
+        //     }
+        // }
+    
+        // Заполнен один из рядов по горизонтали
+        let foundH = false;
+        for (let i = 0; i < data.length; i++) {
+            if (this.checkRow(data[i])) {
+                for (let j = 0; j < data[i].length; j++) {
+                    if (rIndex === i && cIndex === j) {
+                        foundH = true
+                    }
+                }
+                if (foundH) {
+                    isWinner = true;
+                }
+            }
+        }
+
+        return isWinner;
+    }
+
     findWinner = (data) => {
         let winner = null;
         if (!data.length) return false;

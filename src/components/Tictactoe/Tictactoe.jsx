@@ -118,7 +118,7 @@ export class Tictactoe extends React.Component {
                             {row.map((item, cIndex) => (
                                 <div 
                                     key={'cell' + cIndex} 
-                                    className={`${s.cell} ${this.getStyle(rIndex, cIndex)}`} 
+                                    className={`${s.cell} ${this.getStyle(rIndex, cIndex)} ${this.store.isWinner(rIndex, cIndex, this.state.data) ? s.winner : ""}`} 
                                     onClick={() => this.handlerStroke(rIndex, cIndex)}/>
                             ))}
                         </div>
