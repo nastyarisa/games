@@ -1,20 +1,10 @@
 export class TictactoeStore {
     size = 3;
-    data = [];
     gameStarted = false;
     whoWalkNow = null;
 
     constructor() {
-        this.createNullData();
-    }
-    createNullData = () => {
-        if (!this.size) return;
-        for (let i = 0; i < this.size; i++) {
-            this.data[i] = [];
-            for (let j = 0; j < this.size; j++) {
-                this.data[i][j] = null;
-            }
-        }
+    
     }
 
     getNullData = () => {
@@ -37,8 +27,6 @@ export class TictactoeStore {
         } else {
             this.whoWalkNow = this.whoWalkNow === 'cross' ? 'zero' : 'cross';
         }
-        // newData[rIndex][cIndex] = {};
-        // newData[rIndex][cIndex].type = this.whoWalkNow;
         newData[rIndex][cIndex] = this.whoWalkNow;
         return newData;
     }

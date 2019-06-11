@@ -6,7 +6,6 @@ export class Main extends React.Component {
     render() {
         return (
             <div className={s.wrapper}>
-                <h1 className={s.title}>Крестики-нолики</h1>
                 <Tictactoe />
             </div>
         )

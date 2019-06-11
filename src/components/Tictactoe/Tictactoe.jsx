@@ -10,7 +10,7 @@ export class Tictactoe extends React.Component {
         super(props);
         this.state = {
             data: [],
-            time: "0",
+            time: 0,
         }
     }
 
@@ -55,7 +55,7 @@ export class Tictactoe extends React.Component {
 
     clearTimer = () => {
         clearInterval(this.timer);
-        this.setState({time: "0"})
+        this.setState({time: 0})
     } 
 
     componentDidMount() {
@@ -63,42 +63,35 @@ export class Tictactoe extends React.Component {
         this.setTimer();
     }
 
+
     setTimer = () => {
         this.timer = setInterval(() => this.setState((state) => {
-            let time = state.time.split(':');
-            let newTime = [];         
-            let seconds = time[time.length-1];
-            let minutes, hour;
-            if (time.length > 1) {
-                minutes = time[time.length - 2];
-            } 
-            if (time.length > 2) {
-                hour = time[time.length - 3];
-            } 
-            
-            if (minutes === '59' && seconds === '59') {
-                hour = hour ? String(+hour + 1) : '1';
-                minutes = '0';
-                seconds = '0';
-            }
-            if (seconds === '59') {
-                minutes = minutes ? String(+minutes + 1) : '1';
-                seconds = '0';
-            } else {
-                seconds = String(+seconds + 1);
-            }
-
-            if (hour) {
-                newTime.push(hour);
-            }
-            if (minutes) {
-                newTime.push(minutes.length > 1 ? minutes : '0' + minutes);
-            }
-            newTime.push(seconds.length > 1 ? seconds : '0' + seconds);
-
-            let finalTime = newTime.join(':');
-            return {time: finalTime}
+            let time = parseInt(state.time);
+            return {time: time + 1}
         }), 1000)
+    }
+
+    getTime = (value) => {
+        let seconds, minutes, hours;
+        seconds = value;
+        if (value >= 60) {
+            minutes = parseInt(value/60);
+            seconds = value - (minutes*60);
+        }
+        if (minutes >= 60) {
+            hours = parseInt(minutes/60);
+            minutes = minutes - (hours*60);
+        }
+        
+        let str;
+        if (hours) {
+            str = `${hours}:${minutes > 9 ? minutes: '0' + minutes}:${seconds > 9 ? seconds: '0' + seconds}`
+        } else if (minutes) {
+            str = `${minutes}:${seconds > 9 ? seconds: '0' + seconds}`
+        } else {
+            str = `${seconds}`
+        }
+        return str;
     }
 
     render() {
@@ -118,9 +111,9 @@ export class Tictactoe extends React.Component {
         }
         return (
             <div className={s.wrapper}>
-                <div className={s.timer}>Время: {this.state.time}</div>
+                <h1 className={s.title}>Крестики-нолики</h1>
                 <div className={s.table}>
-                    {this.store.data.length ? this.state.data.map((row, rIndex)=>(
+                    {this.state.data.length ? this.state.data.map((row, rIndex)=>(
                         <div className={s.row} key={'row' + rIndex}>
                             {row.map((item, cIndex) => (
                                 <div 
@@ -131,6 +124,7 @@ export class Tictactoe extends React.Component {
                         </div>
                     )) : null}
                 </div>
+                <div className={s.timer}>Время: {this.getTime(this.state.time)}</div>
                 {message()}
                 <button className={s.btn} onClick={this.startNewGame}>Новая игра</button>
             </div>
