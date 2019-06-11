@@ -1,13 +1,16 @@
 .wrapper {
-    max-width: 320px;
+    max-width: 300px;
+    width: 100%;
+    margin-top: 5px;
+    margin-bottom: 5px;
     margin-left: auto;
     margin-right: auto;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding-top: 5px;
-    padding-bottom: 30px;
+    padding-top: 7px;
+    padding-bottom: 23px;
     padding-left: 20px;
     padding-right: 20px;
     background-color:#fff;
@@ -29,9 +32,9 @@
 }
 
 .timer {
-    margin-bottom: 5px;
+    margin-bottom: 7px;
     margin-right: auto;
-    margin-left: 5px;
+    margin-left: 17px;
     font-weight: 500;
     color: #4e4e4e;
 }
@@ -47,8 +50,8 @@
 }
 
 .cell {
-    width: 80px;
-    height: 80px;
+    width: 70px;
+    height: 70px;
     border: 2px solid rgb(107, 106, 107);
     cursor: pointer;
     background-color: #fff;
@@ -84,6 +87,17 @@
     border-bottom-right-radius: 10px;
 }
 
+.row:nth-child(2n + 1) {
+    .cell:nth-child(2n) {
+        background-color: rgba(120,120,120,0.3);
+    }
+}
+.row:nth-child(2n) {
+    .cell:nth-child(2n + 1) {
+        background-color: rgba(120,120,120,0.3);
+    }
+}
+
 .btn {
     padding: 15px 20px;
     border-radius: 10px;
@@ -102,6 +116,7 @@
 }
 
 .message {
+    max-width: 296px;
     background: rgba(203, 251, 240, 0.5);
     border: 1px solid rgba(73, 221, 93, 0.8);
     border-radius: 5px;
@@ -113,8 +128,9 @@
     margin-bottom: 10px;
     padding-top: 5px;
     padding-bottom: 5px;
-    padding-left: 20px;
-    padding-right: 20px;
+    padding-left: 15px;
+    padding-right: 15px;
+    box-sizing: border-box;
     text-align: center;
 }
 
