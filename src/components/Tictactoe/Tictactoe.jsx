@@ -1,10 +1,11 @@
 import * as React from 'react';
 import s from './Tictactoe.module.scss';
 import { TictactoeStore } from './TictactoeStore';
+import {Timer} from "../Timer/Timer";
 
 export class Tictactoe extends React.Component {
     store = new TictactoeStore();
-    timer;
+    timerStoped = false;
      
     constructor(props) {
         super(props);
@@ -30,6 +31,10 @@ export class Tictactoe extends React.Component {
         });
     }
 
+    componentDidMount() {
+        this.setNullData();
+    }
+
     getStyle = (rIndex, cIndex) => {
         let target = this.state.data[rIndex][cIndex];
         if (!target) return "";
@@ -50,48 +55,18 @@ export class Tictactoe extends React.Component {
         this.store.gameStarted = false;
         this.store.whoWalkNow = null;
         this.clearTimer();
-        this.setTimer();
     }
 
     clearTimer = () => {
-        clearInterval(this.timer);
+        this.timerStoped = false;
         this.setState({time: 0})
     } 
 
-    componentDidMount() {
-        this.setNullData();
-        this.setTimer();
-    }
-
-
     setTimer = () => {
-        this.timer = setInterval(() => this.setState((state) => {
+        this.setState((state) => {
             let time = parseInt(state.time);
             return {time: time + 1}
-        }), 1000)
-    }
-
-    getTime = (value) => {
-        let seconds, minutes, hours;
-        seconds = value;
-        if (value >= 60) {
-            minutes = parseInt(value/60);
-            seconds = value - (minutes*60);
-        }
-        if (minutes >= 60) {
-            hours = parseInt(minutes/60);
-            minutes = minutes - (hours*60);
-        }
-        
-        let str;
-        if (hours) {
-            str = `${hours}:${minutes > 9 ? minutes: '0' + minutes}:${seconds > 9 ? seconds: '0' + seconds}`
-        } else if (minutes) {
-            str = `${minutes}:${seconds > 9 ? seconds: '0' + seconds}`
-        } else {
-            str = `${seconds}`
-        }
-        return str;
+        })
     }
 
     render() {
@@ -99,12 +74,12 @@ export class Tictactoe extends React.Component {
         const message = () => {
             let winner = this.store.findWinner(data);
             if (winner) {
-                clearInterval(this.timer);
+                this.timerStoped = true;
                 return <p className={s.message}>Игра окончена! 
                 Победил {winner === 'cross' ? 'крестик' : 'нолик'}!</p>
              }
             if (this.store.deadHeat(data)) {
-                clearInterval(this.timer);
+                this.timerStoped = true;
                return <p className={s.message}>Игра окончена! Закончились ходы.</p>
             }
             return null;
@@ -124,7 +99,11 @@ export class Tictactoe extends React.Component {
                         </div>
                     )) : null}
                 </div>
-                <div className={s.timer}>Время: {this.getTime(this.state.time)}</div>
+                <Timer 
+                    value={this.state.time} 
+                    onChange={this.setTimer}
+                    stop={this.timerStoped}
+                 />
                 {message()}
                 <button className={s.btn} onClick={this.startNewGame}>Новая игра</button>
             </div>
