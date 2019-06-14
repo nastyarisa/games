@@ -12,6 +12,7 @@ import * as s from "./Timer.module.scss";
 export class Timer extends React.Component {
     timer;
     timerWasStoped = false;
+    
     constructor(props) {
         super(props);
         this.state = {

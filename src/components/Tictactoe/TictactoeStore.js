@@ -1,42 +1,47 @@
+/**
+ * Формат для объекта крестики-нолики
+ * [[{name: "cross"|"zero"|null, winner: boolean},{},{}],[{},{},{}],[{},{},{}]]
+ */
+
 export class TictactoeStore {
     size = 3;
     gameStarted = false;
     whoWalkNow = null;
 
-    constructor() {
-    
-    }
-
+    // создает пустой двумерный массив с объектами - инициализация или обнуление
     getNullData = () => {
         let data = [];
         if (!this.size) return;
         for (let i = 0; i < this.size; i++) {
               data[i] = [];
             for (let j = 0; j < this.size; j++) {
-              data[i][j] = null;
+              data[i][j] = {};
             }
         }
         return data;
     }
 
+    // устанавливает в клетку клона массива крестик или нолик, возвращает новый массив
     handlerStroke = (rIndex, cIndex, data) => {
-        let newData = copyArray(data);
+        console.log('data', data);
+        let newData = deepClone(data);
         if (!this.gameStarted) {
             this.gameStarted = true;
             this.whoWalkNow = 'cross';
         } else {
             this.whoWalkNow = this.whoWalkNow === 'cross' ? 'zero' : 'cross';
         }
-        newData[rIndex][cIndex] = this.whoWalkNow;
+        newData[rIndex][cIndex].name = this.whoWalkNow;
         return newData;
     }
 
+    //проверяет что свободных клеток больше нет - закончились ходы
     deadHeat = (data) => {
         if (!data.length) return false;
         for (let i = 0; i < data.length; i++) {
             let row = data[i];
             for (let j = 0; j < row.length; j++) {
-                if (!row[j]) {
+                if (!row[j].name) {
                     return false
                 };
             }
@@ -44,6 +49,7 @@ export class TictactoeStore {
         return true;
     }
 
+    //проверяет есть ли победитель fixme
     isVictory = (data) => {
         let victory = false;
         if (!data.length) return false;
@@ -80,18 +86,19 @@ export class TictactoeStore {
         return victory;
     }
 
-    //Проверяем что в одномерном массиве все элементы одинаковые
+    //Проверяем что в одномерном массиве все свойства name вложенных одинаковые
 
     checkRow = (arr) => {
         if (!arr.length) return false;
-        let prevElem = arr[0];
+        let prevElem = arr[0].name;
         if (!prevElem) return false;
         for (let i = 0; i < arr.length; i++) {
-            if (arr[i] !== prevElem) return false;
+            if (arr[i].name !== prevElem) return false;
         }
         return true;
     }
 
+    //проверяет что клетка является победителем fixme
     isWinner = (rIndex, cIndex, data) => {
         let isWinner = false;
         if (!data.length) return false;
@@ -157,6 +164,7 @@ export class TictactoeStore {
         return isWinner;
     }
 
+    //выводит имя победителя fixme
     findWinner = (data) => {
         let winner = null;
         if (!data.length) return false;
@@ -166,7 +174,7 @@ export class TictactoeStore {
             leftDiagonal.push(data[i][i]);
         }
         if (this.checkRow(leftDiagonal)) {
-            winner = leftDiagonal[0];
+            winner = leftDiagonal[0].name;
             return winner;
         };
     
@@ -176,7 +184,7 @@ export class TictactoeStore {
             rightDiagonal.push(data[data.length-1-i][i]);
         }
         if (this.checkRow(rightDiagonal)) {
-            winner = rightDiagonal[0];
+            winner = rightDiagonal[0].name;
             return winner;
         };
     
@@ -189,7 +197,7 @@ export class TictactoeStore {
         });
         for (let i = 0; i < verticalData.length; i++) {
             if (this.checkRow(verticalData[i])) {
-                winner = verticalData[i][0];
+                winner = verticalData[i][0].name;
                 return winner;
             };
         }
@@ -197,7 +205,7 @@ export class TictactoeStore {
         // Заполнен один из рядов по горизонтали
         for (let i = 0; i < data.length; i++) {
            if (this.checkRow(data[i])) {
-            winner = data[i][0];
+            winner = data[i][0].name;
             return winner;
            };
         }
@@ -215,3 +223,28 @@ function copyArray(arr) {
     }
     return arr;
 }
+
+export function deepClone(obj) {
+    if (obj === null || typeof obj !== "object") {
+      return obj;
+    }
+  
+    if (obj instanceof Array && obj.length) {
+      let copy = [];
+      for (let i = 0; i < obj.length; i++) {
+        copy[i] = deepClone(obj[i]);
+      }
+      return copy;
+    }
+  
+    if (obj instanceof Object) {
+      let copy = {};
+      for (let key in obj) {
+        if (obj.hasOwnProperty(key)) {
+          copy[key] = deepClone(obj[key]);
+        }
+      }
+      return copy;
+    }
+  }
+  

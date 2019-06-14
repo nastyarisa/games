@@ -20,7 +20,7 @@ export class Tictactoe extends React.Component {
     }
 
     handlerStroke = (rIndex, cIndex) => {
-        let target = this.state.data[rIndex][cIndex];
+        let target = this.state.data[rIndex][cIndex].name;
         if (target) return;
         if (this.gameOver()) {
             return;
@@ -36,7 +36,7 @@ export class Tictactoe extends React.Component {
     }
 
     getStyle = (rIndex, cIndex) => {
-        let target = this.state.data[rIndex][cIndex];
+        let target = this.state.data[rIndex][cIndex].name;
         if (!target) return "";
         return s[target];
     }
