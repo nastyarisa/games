@@ -31,14 +31,6 @@
     }
 }
 
-// .timer {
-//     margin-bottom: 7px;
-//     margin-right: auto;
-//     margin-left: 17px;
-//     font-weight: 500;
-//     color: #4e4e4e;
-// }
-
 .table {
     display: flex;
     flex-direction: column;
@@ -148,5 +140,5 @@
 }
 
 .winner {
-    background-color: rgb(127, 241, 127) !important;
+    background-color: rgba(127, 241, 127, 0.8) !important;
 }

@@ -3,12 +3,20 @@
  * [[{name: "cross"|"zero"|null, winner: boolean},{},{}],[{},{},{}],[{},{},{}]]
  */
 
+export const Translation = {
+    cross: "крестик",
+    zero: "нолик"
+}
+
 export class TictactoeStore {
     size = 3;
     gameStarted = false;
     whoWalkNow = null;
 
-    // создает пустой двумерный массив с объектами - инициализация или обнуление
+    /**
+     * Формирует новую data с пустыми клетками,
+     * основываясь на размере поля size 
+     */
     getNullData = () => {
         let data = [];
         if (!this.size) return;
@@ -21,9 +29,9 @@ export class TictactoeStore {
         return data;
     }
 
-    // устанавливает в клетку клона массива крестик или нолик, возвращает новый массив
+    /** Возвращает новый массив с установленным крестиком или ноликом, 
+     *  основываясь на том, кто ходил до этого  */
     handlerStroke = (rIndex, cIndex, data) => {
-        console.log('data', data);
         let newData = deepClone(data);
         if (!this.gameStarted) {
             this.gameStarted = true;
@@ -36,58 +44,36 @@ export class TictactoeStore {
         return newData;
     }
 
-    //проверяет что свободных клеток больше нет - закончились ходы
-    deadHeat = (data) => {
+    /**
+     * Проверка что закончились ходы
+     */
+    movesOver = (data) => {
         if (!data.length) return false;
         for (let i = 0; i < data.length; i++) {
-            let row = data[i];
-            for (let j = 0; j < row.length; j++) {
-                if (!row[j].name) {
-                    return false
+            for (let j = 0; j < data.length; j++) {
+                if (!data[i][j].name) {
+                    return false;
                 };
             }
         }
         return true;
     }
 
-    //проверяет есть ли победитель fixme
-    isVictory = (data) => {
-        let victory = false;
-        if (!data.length) return false;
-        //Заполнена диагональ слева направо
-        let leftDiagonal = [];
+    /**
+     * Находит победителя, если не находит - возвращает null,
+     * Если находит - возвращает name
+     */
+    getWinner = (data) => {
+        if (!data.length) return null;
         for (let i = 0; i < data.length; i++) {
-            leftDiagonal.push(data[i][i]);
-        }
-        if (this.checkRow(leftDiagonal)) victory = true;
-    
-        // Заполнен диагональ справа налево
-        let rightDiagonal = [];
-        for (let i = 0; i < data.length; i++) {
-            rightDiagonal.push(data[data.length-1-i][i]);
-        }
-        if (this.checkRow(rightDiagonal)) victory = true;
-    
-        // Заполнен один из рядов по вертикали
-        let verticalData = [[],[],[]];
-        data.forEach((row, index)=>{
-            // if (victory) return;
-            for (let i = 0; i < row.length; i++) {
-                verticalData[i][index] = row[i]
+            for (let j = 0; j < data.length; j++) {
+                if (data[i][j].winner) {
+                    return data[i][j].name;
+                };
             }
-        });
-        for (let i = 0; i < verticalData.length; i++) {
-            if (this.checkRow(verticalData[i])) victory = true;
         }
-    
-        // Заполнен один из рядов по горизонтали
-        for (let i = 0; i < data.length; i++) {
-           if (this.checkRow(data[i])) victory = true;
-        }
-        return victory;
+        return null;
     }
-
-    //Проверяем что в одномерном массиве все свойства name вложенных одинаковые
 
     checkRow = (data) => {
         if (!data.length) return false;
@@ -145,10 +131,9 @@ export class TictactoeStore {
     setWinnerStyle = (data) => {
         let newData = deepClone(data); 
         if (!newData.length) return newData;
-
         let isWinner = false;
-        //Заполнена диагональ слева направо
 
+        /** Заполнена диагональ слева направо */
         isWinner = this.checkLeftDiagonal(newData);
         if (isWinner) {
             for (let i = 0; i < newData.length; i++) {
@@ -157,7 +142,7 @@ export class TictactoeStore {
             return newData;
         }
 
-        // Заполнен диагональ справа налево
+        /** Заполнен диагональ справа налево */
         isWinner = this.checkRightDiagonal(newData);
         if (isWinner) {
             for (let i = 0; i < newData.length; i++) {
@@ -166,8 +151,7 @@ export class TictactoeStore {
             return newData;
         }
 
-        // Заполнен один из рядов по горизонтали
-
+        /** Заполнен один из рядов по горизонтали */
         for (let i = 0; i < newData.length; i++) {
             isWinner = this.checkRow(newData[i]);
             if (isWinner) {
@@ -178,10 +162,9 @@ export class TictactoeStore {
             }
         }
 
-        // Заполнен один из рядов по вертикали
+        /** Заполнен один из рядов по вертикали */
         let columnIndex = this.findWinnerСolumnIndex(newData);
         isWinner = columnIndex !== -1 ? true : false;
-
         if (isWinner) {
             for (let i = 0; i < newData.length; i++) {
                 newData[i][columnIndex].winner = true; 
@@ -190,65 +173,6 @@ export class TictactoeStore {
         }
         return newData;
     }
-
-    //выводит имя победителя fixme
-    findWinner = (data) => {
-        let winner = null;
-        if (!data.length) return false;
-        //Заполнена диагональ слева направо
-        let leftDiagonal = [];
-        for (let i = 0; i < data.length; i++) {
-            leftDiagonal.push(data[i][i]);
-        }
-        if (this.checkRow(leftDiagonal)) {
-            winner = leftDiagonal[0].name;
-            return winner;
-        };
-    
-        // Заполнен диагональ справа налево
-        let rightDiagonal = [];
-        for (let i = 0; i < data.length; i++) {
-            rightDiagonal.push(data[data.length-1-i][i]);
-        }
-        if (this.checkRow(rightDiagonal)) {
-            winner = rightDiagonal[0].name;
-            return winner;
-        };
-    
-        // Заполнен один из рядов по вертикали
-        let verticalData = [[],[],[]];
-        data.forEach((row, index)=>{
-            for (let i = 0; i < row.length; i++) {
-                verticalData[i][index] = row[i]
-            }
-        });
-        for (let i = 0; i < verticalData.length; i++) {
-            if (this.checkRow(verticalData[i])) {
-                winner = verticalData[i][0].name;
-                return winner;
-            };
-        }
-    
-        // Заполнен один из рядов по горизонтали
-        for (let i = 0; i < data.length; i++) {
-           if (this.checkRow(data[i])) {
-            winner = data[i][0].name;
-            return winner;
-           };
-        }
-        return winner;
-    }
-}
-
-function copyArray(arr) {
-    if (arr instanceof Array) {
-        let copy = [];
-        for (let i = 0; i < arr.length; i++) {
-            copy[i] = copyArray(arr[i]);
-        }
-        return copy;
-    }
-    return arr;
 }
 
 export function deepClone(obj) {

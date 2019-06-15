@@ -1,6 +1,6 @@
 import * as React from 'react';
 import s from './Tictactoe.module.scss';
-import { TictactoeStore } from './TictactoeStore';
+import {TictactoeStore, Translation} from './TictactoeStore';
 import {Timer} from "../Timer/Timer";
 
 export class Tictactoe extends React.Component {
@@ -50,10 +50,9 @@ export class Tictactoe extends React.Component {
 
     gameOver = () => {
         let data = this.state.data;
-        if (this.store.deadHeat(data)) {
+        if (this.store.movesOver(data) || this.store.getWinner(data)) {
             return true;
         }
-        if (this.store.isVictory(data)) return true;
         return false; 
     }
 
@@ -79,13 +78,13 @@ export class Tictactoe extends React.Component {
     render() {
         let data = this.state.data;
         const message = () => {
-            let winner = this.store.findWinner(data);
+            let winner = this.store.getWinner(data);
             if (winner) {
                 this.timerStoped = true;
                 return <p className={s.message}>Игра окончена! 
-                Победил {winner === 'cross' ? 'крестик' : 'нолик'}!</p>
+                Победил {Translation[winner]}!</p>
              }
-            if (this.store.deadHeat(data)) {
+            if (this.store.movesOver(data)) {
                 this.timerStoped = true;
                return <p className={s.message}>Игра окончена! Закончились ходы.</p>
             }
