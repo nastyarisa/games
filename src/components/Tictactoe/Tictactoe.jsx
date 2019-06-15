@@ -26,8 +26,9 @@ export class Tictactoe extends React.Component {
             return;
         }
         this.setState((state, props) => {
-            let data = state.data;
-            return {data: this.store.handlerStroke(rIndex, cIndex, data)}
+            let newData = this.store.handlerStroke(rIndex, cIndex, state.data);
+            newData = this.store.setWinnerStyle(newData);
+            return {data: newData}
         });
     }
 
@@ -36,9 +37,15 @@ export class Tictactoe extends React.Component {
     }
 
     getStyle = (rIndex, cIndex) => {
-        let target = this.state.data[rIndex][cIndex].name;
-        if (!target) return "";
-        return s[target];
+        let name = this.state.data[rIndex][cIndex].name;
+        if (!name) return "";
+        return s[name];
+    }
+
+    getWinnerStyle = (rIndex, cIndex) => {
+        let isWinner = this.state.data[rIndex][cIndex].winner;
+        if (!isWinner) return "";
+        return s.winner;
     }
 
     gameOver = () => {
@@ -93,7 +100,9 @@ export class Tictactoe extends React.Component {
                             {row.map((item, cIndex) => (
                                 <div 
                                     key={'cell' + cIndex} 
-                                    className={`${s.cell} ${this.getStyle(rIndex, cIndex)} ${this.store.isWinner(rIndex, cIndex, this.state.data) ? s.winner : ""}`} 
+                                    className={`${s.cell} ${this.getStyle(rIndex, cIndex)} 
+                                    ${this.getWinnerStyle(rIndex, cIndex)}
+                                    `} 
                                     onClick={() => this.handlerStroke(rIndex, cIndex)}/>
                             ))}
                         </div>

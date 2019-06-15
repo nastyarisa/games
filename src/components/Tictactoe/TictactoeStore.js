@@ -32,6 +32,7 @@ export class TictactoeStore {
             this.whoWalkNow = this.whoWalkNow === 'cross' ? 'zero' : 'cross';
         }
         newData[rIndex][cIndex].name = this.whoWalkNow;
+        
         return newData;
     }
 
@@ -88,80 +89,106 @@ export class TictactoeStore {
 
     //Проверяем что в одномерном массиве все свойства name вложенных одинаковые
 
-    checkRow = (arr) => {
-        if (!arr.length) return false;
-        let prevElem = arr[0].name;
-        if (!prevElem) return false;
-        for (let i = 0; i < arr.length; i++) {
-            if (arr[i].name !== prevElem) return false;
+    checkRow = (data) => {
+        if (!data.length) return false;
+        let firstElem = data[0].name;
+        if (!firstElem) return false;
+        for (let i = 0; i < data.length; i++) {
+            if (data[i].name !== firstElem) return false;
         }
         return true;
     }
 
-    //проверяет что клетка является победителем fixme
-    isWinner = (rIndex, cIndex, data) => {
-        let isWinner = false;
-        if (!data.length) return false;
-    
-        //Заполнена диагональ слева направо
-        let found = false;
-        let leftDiagonal = [];
+    checkLeftDiagonal = (data) => {
+        let firstElem = data[0][0].name;
+        if (!firstElem) return false;
         for (let i = 0; i < data.length; i++) {
-            if (rIndex === i && cIndex === i) {
-                found = true;
-            }
-            leftDiagonal.push(data[i][i]);
+            if (data[i][i].name !== firstElem) return false;
         }
-        if (this.checkRow(leftDiagonal) && found) {
-            isWinner = true;
-        };
+        return true;
+    }
+
+    checkRightDiagonal = (data) => {
+        let firstElem = data[data.length-1][0].name;
+        if (!firstElem) return false;
+        for (let i = 0; i < data.length; i++) {
+            if (data[data.length-1-i][i].name !== firstElem) return false;
+        }
+        return true;
+    }
+
+    findWinnerСolumnIndex = (data) => {
+        if (!data.length) return -1;
+
+        for (let i = 0; i < data.length; i++) {
+            let firstElem = data[0][i].name;
+            if (!firstElem) continue;
+            let found = true;
+            for (let j = 0; j < data.length; j++) {
+                if (data[j][i].name !== firstElem) {
+                    found = false;
+                    break;
+                }
+            }
+            if (found) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    /**
+     * Выполняет проверки на победу 
+     * и устанавливает клеткам свойство winner в true,
+     * если они находятся в ряду победителя
+     */
+    setWinnerStyle = (data) => {
+        let newData = deepClone(data); 
+        if (!newData.length) return newData;
+
+        let isWinner = false;
+        //Заполнена диагональ слева направо
+
+        isWinner = this.checkLeftDiagonal(newData);
+        if (isWinner) {
+            for (let i = 0; i < newData.length; i++) {
+                newData[i][i].winner = true;
+            }
+            return newData;
+        }
 
         // Заполнен диагональ справа налево
-        let foundR = false;
-        let rightDiagonal = [];
-        for (let i = 0; i < data.length; i++) {
-            if (rIndex === data.length-1-i && cIndex === i) {
-                foundR = true;
+        isWinner = this.checkRightDiagonal(newData);
+        if (isWinner) {
+            for (let i = 0; i < newData.length; i++) {
+                newData[data.length-1-i][i].winner = true;
             }
-            rightDiagonal.push(data[data.length-1-i][i]);
+            return newData;
         }
-        if (this.checkRow(rightDiagonal) && foundR) {
-            isWinner = true;
+
+        // Заполнен один из рядов по горизонтали
+
+        for (let i = 0; i < newData.length; i++) {
+            isWinner = this.checkRow(newData[i]);
+            if (isWinner) {
+                for (let j = 0; j < newData[i].length; j++) {
+                    newData[i][j].winner = true; 
+                }
+                return newData;
+            }
         }
 
         // Заполнен один из рядов по вертикали
-        // let foundV = false;
-        // let verticalData = [[],[],[]];
-        // data.forEach((row, index) => {
-        //     for (let i = 0; i < row.length; i++) {
-        //         verticalData[i][index] = row[i]
-        //         if (rIndex === i && cIndex === index) {
-        //             foundV = true
-        //         }
-        //     }
-        // });
-        // for (let i = 0; i < verticalData.length; i++) {
-        //     if (this.checkRow(verticalData[i]) && foundV) {
-        //         isWinner = true;
-        //     }
-        // }
-    
-        // Заполнен один из рядов по горизонтали
-        let foundH = false;
-        for (let i = 0; i < data.length; i++) {
-            if (this.checkRow(data[i])) {
-                for (let j = 0; j < data[i].length; j++) {
-                    if (rIndex === i && cIndex === j) {
-                        foundH = true
-                    }
-                }
-                if (foundH) {
-                    isWinner = true;
-                }
-            }
-        }
+        let columnIndex = this.findWinnerСolumnIndex(newData);
+        isWinner = columnIndex !== -1 ? true : false;
 
-        return isWinner;
+        if (isWinner) {
+            for (let i = 0; i < newData.length; i++) {
+                newData[i][columnIndex].winner = true; 
+            }
+            return newData;
+        }
+        return newData;
     }
 
     //выводит имя победителя fixme
