@@ -17,6 +17,10 @@
     border-radius: 15px;
     box-shadow: 0 10px 10px 0 rgba(0,0,0,0.1);
     box-sizing: border-box;
+    @media(max-width: 600px) {
+        min-height: 470px;
+        justify-content: flex-start;
+    }
 }
 
 .title {
@@ -25,9 +29,27 @@
     font-size: 18px;
     font-weight: 500;
     text-align: center;
-    text-decoration: underline;
     @media(min-width: 600px) {
         margin: 5px 0 15px;
+    }
+}
+
+.radioGroup {
+    width: 100%;
+    padding-left: 17px;
+    margin: 5px 0 20px;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.label {
+    display: flex;
+    color: #4e4e4e;
+    &:first-child {
+       margin-right: 15px; 
+    }
+    input[type="radio"] {
+        margin-right: 8px;
     }
 }
 

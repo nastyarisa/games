@@ -12,6 +12,7 @@ export class TictactoeStore {
     size = 3;
     gameStarted = false;
     whoWalkNow = null;
+    mode = null;
 
     /**
      * Формирует новую data с пустыми клетками,
@@ -31,17 +32,48 @@ export class TictactoeStore {
 
     /** Возвращает новый массив с установленным крестиком или ноликом, 
      *  основываясь на том, кто ходил до этого  */
-    handlerStroke = (rIndex, cIndex, data) => {
+    handlerStroke = (rIndex, cIndex, data, mode) => {
         let newData = deepClone(data);
         if (!this.gameStarted) {
             this.gameStarted = true;
             this.whoWalkNow = 'cross';
+            if (mode === "bot") {
+                this.mode = "bot"
+            } else {
+                this.mode = "alone"
+            }
         } else {
             this.whoWalkNow = this.whoWalkNow === 'cross' ? 'zero' : 'cross';
         }
         newData[rIndex][cIndex].name = this.whoWalkNow;
-        
         return newData;
+    }
+
+    handlerStrokeBot = (data) => {
+        let newData = deepClone(data);
+        let coord = this.botMove(newData);
+        if (coord) {
+        let [rI, lI] = coord;
+        this.whoWalkNow = 'zero';
+        newData[rI][lI].name = this.whoWalkNow;
+        return newData;
+      }
+      return data;
+    }
+
+    botMove = (data) => {
+        let emptyCells = [];
+        for (let i = 0; i < data.length; i++) {
+            let row = data[i];
+            for (let j = 0; j < row.length; j++) {
+                if (!row[j].name) emptyCells.push([i,j]);
+            }
+        }
+        if (emptyCells.length)  {
+            let move = Math.floor(Math.random() * (emptyCells.length - 0)) + 0;
+            return emptyCells[move]
+        }
+        return null;
     }
 
     /**
