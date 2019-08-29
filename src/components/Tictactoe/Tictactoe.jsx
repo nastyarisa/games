@@ -3,6 +3,11 @@ import s from './Tictactoe.module.scss';
 import { TictactoeStore, Translation } from './TictactoeStore';
 import { Timer } from "../Timer/Timer";
 
+const ModeTranslate = new Map([
+  ["bot", "Сейчас идет игра в режиме бота"],
+  ["alone", "Сейчас идет игра в режиме сам с собой"]
+])
+
 export class Tictactoe extends React.Component {
   store = new TictactoeStore();
   timerStoped = false;
@@ -20,23 +25,25 @@ export class Tictactoe extends React.Component {
     this.setState({ data: this.store.getNullData() })
   }
 
+  /**
+   * Обработка клика на клетку 
+   * */
   handlerStroke = async (rIndex, cIndex) => {
     let target = this.state.data[rIndex][cIndex].name;
     if (target) return;
-    if (this.gameOver()) {
-      return;
-    }
+    if (this.gameOver()) return;
     await this.setState((state, props) => {
       let newData = this.store.handlerStroke(rIndex, cIndex, state.data, state.mode);
       newData = this.store.setWinnerStyle(newData);
       return { data: newData }
     });
     if (this.store.mode === "bot" && this.store.whoWalkNow === "cross") {
-      this.setState((state, props) => {
+      if (this.gameOver()) return;
+      await setTimeout(() => this.setState((state, props) => {
         let newData = this.store.handlerStrokeBot(state.data);
         newData = this.store.setWinnerStyle(newData);
         return { data: newData }
-      });
+      }), 200);
     }
   };
 
@@ -56,6 +63,9 @@ export class Tictactoe extends React.Component {
     return s.winner;
   }
 
+  /**
+   * Проверка, что игра закончилась - заняты все клетки или есть победитель
+   */
   gameOver = () => {
     let data = this.state.data;
     if (this.store.movesOver(data) || this.store.getWinner(data)) {
