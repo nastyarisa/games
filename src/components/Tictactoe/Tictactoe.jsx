@@ -17,7 +17,7 @@ export class Tictactoe extends React.Component {
     this.state = {
       data: [],
       time: 0,
-      mode: "alone",
+      mode: "bot",
     }
   }
 

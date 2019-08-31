@@ -67,6 +67,61 @@ export class TictactoeStore {
   }
 
   botMove = (data) => {
+    let coord = this.coordForWin(data, "zero");
+    console.log('win--coord', coord)
+    if (coord) return coord;
+    coord = this.coordForWin(data, "cross");
+    console.log('lose--coord', coord);
+    if (coord) return coord;
+    coord = this.botMoveRandom(data);
+    return coord;
+  }
+
+  /**
+   * Ищем координаты для победы, возвращает массив 
+   * [rigthIndex, leftIndex] если есть возможный ход, или null, если нет
+   */
+  coordForWin = (data, name) => {
+    let coord = null;
+    let found = this.diagonalSearch(data, name);
+    console.log('found', found)
+    if (found) return found;
+    return coord;
+  }
+
+  diagonalSearch = (data, name) => {
+    let emptyCells = [];
+    /**Проверяем диагональ справа налево */
+    for (let i = 0; i < data.length; i++) {
+      let elemName = data[i][i].name;
+      
+      if (elemName && elemName !== name) {
+        emptyCells = [];
+        break;
+      }
+      if (!elemName) {
+        emptyCells.push([i,i]);
+      }
+    }
+    if (emptyCells.length === 1) {
+      return emptyCells[0];
+    }
+    /**Проверяем диагональ слева направо */
+    emptyCells = [];
+    for (let i = 0; i < data.length; i++) {
+      let elemName = data[data.length - 1 - i][i].name;
+      if (elemName && elemName !== name) return null;
+      if (!elemName) {
+        emptyCells.push([data.length - 1 - i,i]);
+      }
+    }
+    if (emptyCells.length === 1) {
+      return emptyCells[0];
+    }
+    return null;
+  }
+
+  botMoveRandom = (data) => {
     let emptyCells = [];
     for (let i = 0; i < data.length; i++) {
       let row = data[i];
@@ -113,55 +168,7 @@ export class TictactoeStore {
     }
     return null;
   }
-
-  checkRow = (data) => {
-    if (!data.length) return false;
-    let firstElem = data[0].name;
-    if (!firstElem) return false;
-    for (let i = 0; i < data.length; i++) {
-      if (data[i].name !== firstElem) return false;
-    }
-    return true;
-  }
-
-  checkLeftDiagonal = (data) => {
-    let firstElem = data[0][0].name;
-    if (!firstElem) return false;
-    for (let i = 0; i < data.length; i++) {
-      if (data[i][i].name !== firstElem) return false;
-    }
-    return true;
-  }
-
-  checkRightDiagonal = (data) => {
-    let firstElem = data[data.length - 1][0].name;
-    if (!firstElem) return false;
-    for (let i = 0; i < data.length; i++) {
-      if (data[data.length - 1 - i][i].name !== firstElem) return false;
-    }
-    return true;
-  }
-
-  findWinnerСolumnIndex = (data) => {
-    if (!data.length) return -1;
-
-    for (let i = 0; i < data.length; i++) {
-      let firstElem = data[0][i].name;
-      if (!firstElem) continue;
-      let found = true;
-      for (let j = 0; j < data.length; j++) {
-        if (data[j][i].name !== firstElem) {
-          found = false;
-          break;
-        }
-      }
-      if (found) {
-        return i;
-      }
-    }
-    return -1;
-  }
-
+  
   /**
    * Выполняет проверки на победу 
    * и устанавливает клеткам свойство winner в true,
@@ -212,6 +219,55 @@ export class TictactoeStore {
     }
     return newData;
   }
+
+  checkRow = (data) => {
+    if (!data.length) return false;
+    let firstElem = data[0].name;
+    if (!firstElem) return false;
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].name !== firstElem) return false;
+    }
+    return true;
+  }
+
+  checkLeftDiagonal = (data) => {
+    let firstElem = data[0][0].name;
+    if (!firstElem) return false;
+    for (let i = 0; i < data.length; i++) {
+      if (data[i][i].name !== firstElem) return false;
+    }
+    return true;
+  }
+
+  checkRightDiagonal = (data) => {
+    let firstElem = data[data.length - 1][0].name;
+    if (!firstElem) return false;
+    for (let i = 0; i < data.length; i++) {
+      if (data[data.length - 1 - i][i].name !== firstElem) return false;
+    }
+    return true;
+  }
+
+  findWinnerСolumnIndex = (data) => {
+    if (!data.length) return -1;
+
+    for (let i = 0; i < data.length; i++) {
+      let firstElem = data[0][i].name;
+      if (!firstElem) continue;
+      let found = true;
+      for (let j = 0; j < data.length; j++) {
+        if (data[j][i].name !== firstElem) {
+          found = false;
+          break;
+        }
+      }
+      if (found) {
+        return i;
+      }
+    }
+    return -1;
+  }
+
 }
 
 export function deepClone(obj) {
