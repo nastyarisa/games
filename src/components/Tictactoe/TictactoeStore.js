@@ -68,56 +68,75 @@ export class TictactoeStore {
 
   botMove = (data) => {
     // поиск координаты, в которой бот (нолик) может победить
-    let coord = this.coordForWin(data, "zero", 1);
+    let coord = this.coordForWin(data, "zero");
     if (coord) return coord;
     // поиск координаты, в которой игрок (крестик) может проиграть
-    coord = this.coordForWin(data, "cross", 1);
+    coord = this.coordForWin(data, "cross");
     if (coord) return coord;
     // поиск пустой координаты на той же диагонали, строке, ряду, в которую сходил игрок
-    coord = this.coordForWin(data, "cross", 2);
+    // coord = this.coordForWin(data, "cross", 2);
+    // if (coord) return coord;
+    coord = this.coordForNextMove(data, "cross");
     if (coord) return coord;
     coord = this.botMoveRandom(data);
     return coord;
   }
 
   /**
-   * Ищем координаты для победы, возвращает массив 
+   * Ищем координаты для победы, возвращает массив из двух значений
    * [rigthIndex, leftIndex] если есть возможный ход, или null, если нет
    */
-  coordForWin = (data, name, emptyCellsCount) => {
-    let coord = null;
-    let found = this.diagonalSearch(data, name, emptyCellsCount);
+  coordForWin = (data, name) => {
+    let emptyCellsCount = 1;
+    let found = this.searchInFirstDiaronal(data, name, emptyCellsCount);
+    if (found) return found;
+    found = this.searchInSecondDiaronal(data, name, emptyCellsCount);
     if (found) return found;
     found = this.rowSearch(data, name, emptyCellsCount);
     if (found) return found;
     found = this.columnSearch(data, name, emptyCellsCount);
-    if (found) return found;
-    return coord;
+    return found;
   }
-
-  diagonalSearch = (data, name, emptyCellsCount) => {
+  coordForNextMove = (data, name) => {
+    let emptyCellsCount = 2;
     let emptyCells = [];
-    /**Проверяем диагональ справа налево */
-    for (let i = 0; i < data.length; i++) {
-      let elemName = data[i][i].name;      
-      if (elemName && elemName !== name) {
-        emptyCells = [];
-        break;
-      }
-      if (!elemName) emptyCells.push([i,i]);
-    }
-    if (emptyCells.length === emptyCellsCount) {
-      return emptyCells[0];
-    }
-    /**Проверяем диагональ слева направо */
-    emptyCells = [];
+    let found = this.searchInFirstDiaronal(data, name, emptyCellsCount);
+    if (found) emptyCells = [...emptyCells, ...found];
+    found = this.searchInSecondDiaronal(data, name, emptyCellsCount);
+    if (found) emptyCells = [...emptyCells, ...found];
+    found = this.rowSearch(data, name, emptyCellsCount);
+    if (found) emptyCells = [...emptyCells, ...found];
+    found = this.columnSearch(data, name, emptyCellsCount);
+    if (found) emptyCells = [...emptyCells, ...found];
+    return this.searchRandomItemFromArray(emptyCells);
+  }
+  /**
+   * Проверяем диагональ слева направо 
+   * */
+  searchInSecondDiaronal = (data, name, emptyCellsCount) => {
+    let emptyCells = [];
     for (let i = 0; i < data.length; i++) {
       let elemName = data[data.length - 1 - i][i].name;
       if (elemName && elemName !== name) return null;
       if (!elemName) emptyCells.push([data.length - 1 - i,i]);
     }
     if (emptyCells.length === emptyCellsCount) {
-      return emptyCells[0];
+      return emptyCells.length > 1 ? emptyCells :emptyCells[0];
+    }
+    return null;
+  }
+  /**
+   * Проверяем диагональ справа налево 
+   * */
+  searchInFirstDiaronal = (data, name, emptyCellsCount) => {
+    let emptyCells = [];
+    for (let i = 0; i < data.length; i++) {
+      let elemName = data[i][i].name;      
+      if (elemName && elemName !== name) return null;
+      if (!elemName) emptyCells.push([i,i]);
+    }
+    if (emptyCells.length === emptyCellsCount) {
+      return emptyCells.length > 1 ? emptyCells :emptyCells[0];
     }
     return null;
   }
@@ -134,7 +153,7 @@ export class TictactoeStore {
         if (!elemName) emptyCells.push([i,j]); 
       }
       if (emptyCells.length === emptyCellsCount) {
-        return emptyCells[0];
+        return emptyCells.length > 1 ? emptyCells :emptyCells[0];
       }
     }
     return null;
@@ -152,7 +171,7 @@ export class TictactoeStore {
         if (!elemName) emptyCells.push([j,i]); 
       }
       if (emptyCells.length === emptyCellsCount) {
-        return emptyCells[0];
+        return emptyCells.length > 1 ? emptyCells :emptyCells[0];
       }
     }
     return null;
