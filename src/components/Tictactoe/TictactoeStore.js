@@ -67,11 +67,14 @@ export class TictactoeStore {
   }
 
   botMove = (data) => {
-    let coord = this.coordForWin(data, "zero");
-    console.log('win--coord', coord)
+    // поиск координаты, в которой бот (нолик) может победить
+    let coord = this.coordForWin(data, "zero", 1);
     if (coord) return coord;
-    coord = this.coordForWin(data, "cross");
-    console.log('lose--coord', coord);
+    // поиск координаты, в которой игрок (крестик) может проиграть
+    coord = this.coordForWin(data, "cross", 1);
+    if (coord) return coord;
+    // поиск пустой координаты на той же диагонали, строке, ряду, в которую сходил игрок
+    coord = this.coordForWin(data, "cross", 2);
     if (coord) return coord;
     coord = this.botMoveRandom(data);
     return coord;
@@ -81,29 +84,29 @@ export class TictactoeStore {
    * Ищем координаты для победы, возвращает массив 
    * [rigthIndex, leftIndex] если есть возможный ход, или null, если нет
    */
-  coordForWin = (data, name) => {
+  coordForWin = (data, name, emptyCellsCount) => {
     let coord = null;
-    let found = this.diagonalSearch(data, name);
-    console.log('found', found)
+    let found = this.diagonalSearch(data, name, emptyCellsCount);
+    if (found) return found;
+    found = this.rowSearch(data, name, emptyCellsCount);
+    if (found) return found;
+    found = this.columnSearch(data, name, emptyCellsCount);
     if (found) return found;
     return coord;
   }
 
-  diagonalSearch = (data, name) => {
+  diagonalSearch = (data, name, emptyCellsCount) => {
     let emptyCells = [];
     /**Проверяем диагональ справа налево */
     for (let i = 0; i < data.length; i++) {
-      let elemName = data[i][i].name;
-      
+      let elemName = data[i][i].name;      
       if (elemName && elemName !== name) {
         emptyCells = [];
         break;
       }
-      if (!elemName) {
-        emptyCells.push([i,i]);
-      }
+      if (!elemName) emptyCells.push([i,i]);
     }
-    if (emptyCells.length === 1) {
+    if (emptyCells.length === emptyCellsCount) {
       return emptyCells[0];
     }
     /**Проверяем диагональ слева направо */
@@ -111,14 +114,54 @@ export class TictactoeStore {
     for (let i = 0; i < data.length; i++) {
       let elemName = data[data.length - 1 - i][i].name;
       if (elemName && elemName !== name) return null;
-      if (!elemName) {
-        emptyCells.push([data.length - 1 - i,i]);
-      }
+      if (!elemName) emptyCells.push([data.length - 1 - i,i]);
     }
-    if (emptyCells.length === 1) {
+    if (emptyCells.length === emptyCellsCount) {
       return emptyCells[0];
     }
     return null;
+  }
+
+  rowSearch = (data, name, emptyCellsCount) => {
+    for (let i = 0; i < data.length; i++) {
+      let emptyCells = [];
+      for (let j = 0; j < data[i].length; j++) {
+        let elemName = data[i][j].name;
+        if (elemName && elemName !== name) {
+          emptyCells = [];
+          break;
+        }
+        if (!elemName) emptyCells.push([i,j]); 
+      }
+      if (emptyCells.length === emptyCellsCount) {
+        return emptyCells[0];
+      }
+    }
+    return null;
+  }
+
+  columnSearch = (data, name, emptyCellsCount) => {
+    for (let i = 0; i < data.length; i++) {
+      let emptyCells = [];
+      for (let j = 0; j < data[i].length; j++) {
+        let elemName = data[j][i].name;
+        if (elemName && elemName !== name) {
+          emptyCells = [];
+          break;
+        }
+        if (!elemName) emptyCells.push([j,i]); 
+      }
+      if (emptyCells.length === emptyCellsCount) {
+        return emptyCells[0];
+      }
+    }
+    return null;
+  }
+
+  searchRandomItemFromArray = (arr) => {
+    if (!arr) return;
+    let randomIndex = Math.floor(Math.random() * (arr.length - 0)) + 0;
+    return arr[randomIndex];
   }
 
   botMoveRandom = (data) => {
@@ -129,11 +172,7 @@ export class TictactoeStore {
         if (!row[j].name) emptyCells.push([i, j]);
       }
     }
-    if (emptyCells.length) {
-      let move = Math.floor(Math.random() * (emptyCells.length - 0)) + 0;
-      return emptyCells[move]
-    }
-    return null;
+    return this.searchRandomItemFromArray(emptyCells);
   }
 
   /**
