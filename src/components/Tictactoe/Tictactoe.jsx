@@ -140,7 +140,18 @@ export class Tictactoe extends React.Component {
     }
     return (
       <div className={s.wrapper}>
-        <h1 className={s.title}>Крестики-нолики</h1>
+        <div className={s.header}>
+          <h1 className={s.title}>Крестики-нолики</h1>
+          <div className={s.timer}>
+          <Timer
+            value={this.state.time}
+            onChange={this.setTimer}
+            stop={this.timerStoped}
+            label={false}
+        />
+        </div>
+        </div>
+        <div className={s.content}>
         <div className={s.table}>
           {this.state.data.length ? this.state.data.map((row, rIndex) => (
             <div className={s.row} key={'row' + rIndex}>
@@ -155,14 +166,12 @@ export class Tictactoe extends React.Component {
             </div>
           )) : null}
         </div>
-        <Timer
-          value={this.state.time}
-          onChange={this.setTimer}
-          stop={this.timerStoped}
-        />
         {this.selectMode()}
         {message()}
-        <button className={s.btn} onClick={this.startNewGame}>Новая игра</button>
+        </div>
+        <div className={s.footer}>
+          <button className={s.btn} onClick={this.startNewGame}>Новая игра</button>
+        </div>
       </div>
     )
   }

@@ -12,10 +12,21 @@ body {
   box-sizing: border-box;
   font-size: 16px;
   font-family: "Roboto", Arial, sans-serif;
-  background: rgb(66, 224, 172);
+  /* background: rgb(66, 224, 172);
   background: linear-gradient(10deg, rgb(66, 224, 172) 0%, rgb(102, 226, 195) 35%, rgba(106,187,255,1) 100%);
+  background-repeat: no-repeat; */
+  /* background-image: url("static/bg_dark.jpg"); */
+  /* background-image: url("static/bg_blue.png");
   background-repeat: no-repeat;
+  background-size: cover; */
+  background-color: #4a2839;
 }
+
+/* @media(max-width: 400px) {
+  body {
+    /* background: #fff; */
+  /* } */
+/* } */
 
 #root {
   width: 100%;

@@ -7,6 +7,7 @@ import * as s from "./Timer.module.scss";
  * value: number - время в секундах, целое числовое значение
  * onChange: function - функция, которая будет вызываться с интервалом в 1 секунду
  * stop: boolean - если true, то вызов функции с интервалом останавливается, если false - возобновляется
+ * label: boolean - если false - не будет показываться "Время: "
  */
 
 export class Timer extends React.Component {
@@ -76,7 +77,10 @@ export class Timer extends React.Component {
 
     render() {
         return (
-            <div className={s.timer}>Время: {this.getTime(this.props.value ? this.props.value : this.state.time)}</div>
+            <div className={s.timer}>
+                {this.props.label ? "Время:" : null} 
+                {this.getTime(this.props.value ? this.props.value : this.state.time)}
+                </div>
         )
     }
 }
