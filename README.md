@@ -1,9 +1,9 @@
-#Tic-tac-toe (Крестики-нолики)
+# Tic-tac-toe (Крестики-нолики)
 [https://nastyarisa.github.io/games/index](https://nastyarisa.github.io/games/index)
 
-![Скриншот](https://github.com/nastyarisa/games/tree/master/src/example.png)
+![Скриншот](https://github.com/nastyarisa/games/blob/master/src/example.png?raw=true)
 
-###Что реализовано:
+### Что реализовано:
 
 * Два режима игры: с ботом и с самим собой
 * Подсветка клеток победившего
@@ -11,7 +11,7 @@
 * Таймер, отсчитывающий время игры 
 * Мобильная и десктопная вёрстка
 
-###Используемые технологии:
+### Используемые технологии:
 
 * React (javascript)
 * CSS-modules (scss)
