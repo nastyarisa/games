@@ -2,6 +2,7 @@ import * as React from 'react';
 import s from './Tictactoe.module.scss';
 import { TictactoeStore, Translation } from './TictactoeStore';
 import { Timer } from "../Timer/Timer";
+import {Message} from "../Message/Message";
 
 const ModeTranslate = new Map([
   ["bot", "Сейчас идет игра в режиме бота"],
@@ -17,18 +18,19 @@ export class Tictactoe extends React.Component {
     this.state = {
       data: [],
       time: 0,
-      mode: "bot",
+      mode: "bot"
     }
   }
 
   setNullData = () => {
     this.setState({ data: this.store.getNullData() })
   }
-
   /**
    * Обработка клика на клетку 
    * */
+  loading = false;
   handlerStroke = async (rIndex, cIndex) => {
+    if (this.loading) return;
     let target = this.state.data[rIndex][cIndex].name;
     if (target) return;
     if (this.gameOver()) return;
@@ -39,11 +41,13 @@ export class Tictactoe extends React.Component {
     });
     if (this.store.mode === "bot" && this.store.whoWalkNow === "cross") {
       if (this.gameOver()) return;
+      this.loading = true;
       await setTimeout(() => this.setState((state, props) => {
         let newData = this.store.handlerStrokeBot(state.data);
         newData = this.store.setWinnerStyle(newData);
         return { data: newData }
       }), 200);
+      this.loading = false;
     }
   };
 
@@ -125,18 +129,21 @@ export class Tictactoe extends React.Component {
     )
   }
 
+  messageConfirm = () => {
+    this.startNewGame()
+  }
+
   render() {
     let data = this.state.data;
     const message = () => {
       let winner = this.store.getWinner(data);
       if (winner) {
         this.timerStoped = true;
-        return <p className={s.message}>Игра окончена!
-                Победил {Translation[winner]}!</p>
+        return `Победил ${Translation[winner]}.`
       }
-      if (this.store.movesOver(data)) {
+      if (this.store.movesOver(data)) {    
         this.timerStoped = true;
-        return <p className={s.message}>Игра окончена! Закончились ходы.</p>
+        return "Закончились ходы."
       }
       return null;
     }
@@ -169,11 +176,13 @@ export class Tictactoe extends React.Component {
           )) : null}
         </div>
         {this.selectMode()}
-        {message()}
         </div>
         <div className={s.footer}>
           <button className={s.btn} onClick={this.startNewGame}>Новая игра</button>
         </div>
+
+        <Message message={message()} confirmationHandler={this.messageConfirm} 
+        />
       </div>
     )
   }

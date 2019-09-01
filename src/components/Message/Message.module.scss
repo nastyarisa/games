@@ -1,0 +1,81 @@
+.wrapper {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.container {
+  position: relative;
+  max-width: 290px;
+  width: 100%;
+  padding: 10px 0;
+  background-color: #ffc47f;
+  background: radial-gradient(ellipse at center, #ffb686 0%, #ffb686 30%, #ec755d 100%);
+  border-radius: 10px;
+  animation: open 1s ease-in-out;
+}
+
+.header, .content, .footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 20px;
+}
+
+.header {
+  font-weight: 600;
+  text-align: center;
+  color: #fff;
+  font-size: 1.4em;
+}
+
+.btn {
+  font-family: 'M PLUS 1p', sans-serif;
+  padding: 8px 20px;
+  border-radius: 15px;
+  border: none;
+  outline: none;
+  color: #fff;
+  font-size: 1.1em;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 5px 3px rgba(58, 20, 8, 0.058);
+  background: rgba(150,221,191,1);
+  background: -moz-radial-gradient(center, ellipse cover, rgba(150,221,191,1) 0%, rgba(129,188,160,1) 100%);
+  background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, rgba(150,221,191,1)), color-stop(100%, rgba(129,188,160,1)));
+  background: -webkit-radial-gradient(center, ellipse cover, rgba(150,221,191,1) 0%, rgba(129,188,160,1) 100%);
+  background: -o-radial-gradient(center, ellipse cover, rgba(150,221,191,1) 0%, rgba(129,188,160,1) 100%);
+  background: -ms-radial-gradient(center, ellipse cover, rgba(150,221,191,1) 0%, rgba(129,188,160,1) 100%);
+  background: radial-gradient(ellipse at center, rgba(150,221,191,1) 0%, rgba(129,188,160,1) 100%);
+  &:hover, &:active {
+      box-shadow: 0 2px 8px 3px rgba(58, 20, 8, 0.198);
+  }
+}
+
+.content {
+  font-size: 1.1em;
+  margin: 10px 0 20px;
+  color: #fff;
+}
+
+.icon {
+  position: absolute;
+  top: -25px;
+  right: 0px;
+}
+
+
+@keyframes open {
+  from { 
+    transform: scale(0) rotate(-600deg);
+  }
+  to { 
+    transform: scale(1) rotate(0deg);
+  }
+}

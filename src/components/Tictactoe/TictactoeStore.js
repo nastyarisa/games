@@ -97,6 +97,11 @@ export class TictactoeStore {
     found = this.columnSearch(data, name, emptyCellsCount);
     return found;
   }
+  /**
+   * Ищем рандомную координату для хода на тот же ряд, строку или диагональ,
+   * на которую сходил игрок. Возвращается [rigthIndex, leftIndex],
+   * если есть возможный ход, или null, если нет
+   */
   coordForNextMove = (data, name) => {
     let emptyCellsCount = 2;
     let emptyCells = [];

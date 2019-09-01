@@ -57,13 +57,14 @@
         width: 100%;
         flex-grow: 1;
         padding-top: 7%;
+        padding-bottom: 10px;
     }
 }
 
 .footer {
     width: 100%;
-    height: 60px;
-    min-height: 60px;
+    height: 70px;
+    min-height: 70px;
     margin-top: auto;
     display: flex;
     justify-content: center;
@@ -149,6 +150,7 @@
 }
 
 .table {
+    min-height: 280px;
     height: 280px;
     display: flex;
     flex-direction: column;
@@ -174,12 +176,10 @@
 
 .btn {
     font-family: 'M PLUS 1p', sans-serif;
-    position: absolute;
-    top: -5px;
-    bottom: -5px;
-    left: 50%;
-    transform: translateX(-50%);
-    padding: 10px 20px;
+    position: static;
+    transform: none;
+    border-radius: 10px;
+    padding: 13px 20px;
     border-radius: 15px;
     border: none;
     outline: none;
@@ -202,6 +202,7 @@
         position: static;
         transform: none;
         border-radius: 10px;
+        box-shadow: none !important;
     }
 }
 

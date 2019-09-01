@@ -1,0 +1,23 @@
+i {
+  position: relative;
+  font-size: 0;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+.close::after, .close::before {
+  content: "";
+  display: block;
+  width: 5px;
+  height: 20px;
+  border-radius: 2px;
+  background-color: #96ddbf;
+  position: absolute;
+  right: 9px;
+}
+.close::before {
+  transform: rotate(45deg);
+}
+.close::after {
+  transform: rotate(-45deg);
+}
