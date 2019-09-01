@@ -2,12 +2,7 @@ import * as React from 'react';
 import s from './Tictactoe.module.scss';
 import { TictactoeStore, Translation } from './TictactoeStore';
 import { Timer } from "../Timer/Timer";
-import {Message} from "../Message/Message";
-
-const ModeTranslate = new Map([
-  ["bot", "Сейчас идет игра в режиме бота"],
-  ["alone", "Сейчас идет игра в режиме сам с собой"]
-])
+import { Message } from "../Message/Message";
 
 export class Tictactoe extends React.Component {
   store = new TictactoeStore();
@@ -111,23 +106,23 @@ export class Tictactoe extends React.Component {
   selectMode = () => {
     return (
       <div className={s.radioGroup}>
-        <input 
-            id="radio_bot"
-            type="radio"
-            checked={this.state.mode === "bot"} 
-            name="mode"
-            onChange={this.modeHandler}
-          />
+        <input
+          id="radio_bot"
+          type="radio"
+          checked={this.state.mode === "bot"}
+          name="mode"
+          onChange={this.modeHandler}
+        />
         <label htmlFor="radio_bot" className={s.label}>
           С ботом
         </label>
-        <input 
-            id="radio_alone"
-            type="radio" 
-            checked={this.state.mode === "alone"} 
-            name="mode"
-            onChange={this.modeHandler}
-          />
+        <input
+          id="radio_alone"
+          type="radio"
+          checked={this.state.mode === "alone"}
+          name="mode"
+          onChange={this.modeHandler}
+        />
         <label htmlFor="radio_alone" className={s.label}>
           Сам с собой
         </label>
@@ -147,7 +142,7 @@ export class Tictactoe extends React.Component {
         this.timerStoped = true;
         return `Победил ${Translation[winner]}.`
       }
-      if (this.store.movesOver(data)) {    
+      if (this.store.movesOver(data)) {
         this.timerStoped = true;
         return "Закончились ходы."
       }
@@ -158,36 +153,36 @@ export class Tictactoe extends React.Component {
         <div className={s.header}>
           <h1 className={s.title}>Крестики-нолики</h1>
           <div className={s.timer}>
-          <Timer
-            value={this.state.time}
-            onChange={this.setTimer}
-            stop={this.timerStoped}
-            label={false}
-        />
-        </div>
+            <Timer
+              value={this.state.time}
+              onChange={this.setTimer}
+              stop={this.timerStoped}
+              label={false}
+            />
+          </div>
         </div>
         <div className={s.content}>
-        <div className={s.table}>
-          {this.state.data.length ? this.state.data.map((row, rIndex) => (
-            <div className={s.row} key={'row' + rIndex}>
-              {row.map((item, cIndex) => (
-                <div
-                  key={'cell' + cIndex}
-                  className={`${s.cell} ${this.getStyle(rIndex, cIndex)} 
+          <div className={s.table}>
+            {this.state.data.length ? this.state.data.map((row, rIndex) => (
+              <div className={s.row} key={'row' + rIndex}>
+                {row.map((item, cIndex) => (
+                  <div
+                    key={'cell' + cIndex}
+                    className={`${s.cell} ${this.getStyle(rIndex, cIndex)} 
                                     ${this.getWinnerStyle(rIndex, cIndex)}
                                     `}
-                  onClick={() => this.handlerStroke(rIndex, cIndex)} />
-              ))}
-            </div>
-          )) : null}
-        </div>
-        {this.selectMode()}
+                    onClick={() => this.handlerStroke(rIndex, cIndex)} />
+                ))}
+              </div>
+            )) : null}
+          </div>
+          {this.selectMode()}
         </div>
         <div className={s.footer}>
           <button className={s.btn} onClick={this.startNewGame}>Новая игра</button>
         </div>
 
-        <Message message={message()} confirmationHandler={this.messageConfirm} 
+        <Message message={message()} confirmationHandler={this.messageConfirm}
         />
       </div>
     )

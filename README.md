@@ -1,3 +1,24 @@
+#Tic-tac-toe (Крестики-нолики)
+[https://nastyarisa.github.io/games/index](https://nastyarisa.github.io/games/index)
+
+![Скриншот](https://github.com/nastyarisa/games/tree/master/src/example.png)
+
+###Что реализовано:
+
+* Два режима игры: с ботом и с самим собой
+* Подсветка клеток победившего
+* Вывод окошка с сообщением об окончании игры
+* Таймер, отсчитывающий время игры 
+* Мобильная и десктопная вёрстка
+
+###Используемые технологии:
+
+* React (javascript)
+* CSS-modules (scss)
+* Create React App
+
+#Create React App information:
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

@@ -73,9 +73,9 @@
 
 @keyframes open {
   from { 
-    transform: scale(0);
+    transform: translateY(-500px) scale(0.5);
   }
   to { 
-    transform: scale(1);
+    transform: translateY(0) scale(1);
   }
 }

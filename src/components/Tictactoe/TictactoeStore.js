@@ -67,15 +67,13 @@ export class TictactoeStore {
   }
 
   botMove = (data) => {
-    // поиск координаты, в которой бот (нолик) может победить
+    /* поиск координаты, в которой бот (нолик) может победить */
     let coord = this.coordForWin(data, "zero");
     if (coord) return coord;
-    // поиск координаты, в которой игрок (крестик) может проиграть
+    /* поиск координаты, в которой игрок (крестик) может проиграть */
     coord = this.coordForWin(data, "cross");
     if (coord) return coord;
-    // поиск пустой координаты на той же диагонали, строке, ряду, в которую сходил игрок
-    // coord = this.coordForWin(data, "cross", 2);
-    // if (coord) return coord;
+    /* поиск пустой координаты на той же диагонали, строке, ряду, в которую сходил игрок */
     coord = this.coordForNextMove(data, "cross");
     if (coord) return coord;
     coord = this.botMoveRandom(data);

@@ -95,7 +95,10 @@
 
 .radioGroup {
     width: 100%;
-    margin: 10px 0 10px;
+    max-width: 280px;
+    // margin: 10px 0 10px;
+    margin-top: 5%;
+    margin-bottom: 5%;
     display: flex;
     justify-content: space-between;
     input[type="radio"] {
@@ -234,7 +237,7 @@
 .zero {
     background-size: 80% auto;
     background-position: center center;
-    background-image: url('../../static/icon.svg');
+    background-image: url('../../static/zero.svg');
     background-repeat: no-repeat;
 }
 
