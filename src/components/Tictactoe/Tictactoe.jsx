@@ -42,14 +42,20 @@ export class Tictactoe extends React.Component {
     if (this.store.mode === "bot" && this.store.whoWalkNow === "cross") {
       if (this.gameOver()) return;
       this.loading = true;
-      await setTimeout(() => this.setState((state, props) => {
+      await this.timeout(200);
+      await this.setState((state, props) => {
         let newData = this.store.handlerStrokeBot(state.data);
         newData = this.store.setWinnerStyle(newData);
         return { data: newData }
-      }), 200);
+      })
       this.loading = false;
+      console.log('loading', this.loading)
     }
   };
+
+  timeout = (ms) => {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
 
   componentDidMount() {
     this.setNullData();
