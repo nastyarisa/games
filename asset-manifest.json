@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/games/static/css/main.bb5b5ae6.chunk.css",
-    "main.js": "/games/static/js/main.57f5480b.chunk.js",
-    "main.js.map": "/games/static/js/main.57f5480b.chunk.js.map",
+    "main.css": "/games/static/css/main.f8a4a353.chunk.css",
+    "main.js": "/games/static/js/main.c14ba76d.chunk.js",
+    "main.js.map": "/games/static/js/main.c14ba76d.chunk.js.map",
     "runtime~main.js": "/games/static/js/runtime~main.ccf7e7e0.js",
     "runtime~main.js.map": "/games/static/js/runtime~main.ccf7e7e0.js.map",
     "static/js/2.880fa4f8.chunk.js": "/games/static/js/2.880fa4f8.chunk.js",
     "static/js/2.880fa4f8.chunk.js.map": "/games/static/js/2.880fa4f8.chunk.js.map",
     "index.html": "/games/index.html",
-    "precache-manifest.dcceb82e4c26a6f7a7b3dd313ef0d07f.js": "/games/precache-manifest.dcceb82e4c26a6f7a7b3dd313ef0d07f.js",
+    "precache-manifest.d3ba557d7f6f24888900ce0b3cef0d7a.js": "/games/precache-manifest.d3ba557d7f6f24888900ce0b3cef0d7a.js",
     "service-worker.js": "/games/service-worker.js",
-    "static/css/main.bb5b5ae6.chunk.css.map": "/games/static/css/main.bb5b5ae6.chunk.css.map",
+    "static/css/main.f8a4a353.chunk.css.map": "/games/static/css/main.f8a4a353.chunk.css.map",
     "static/media/Tictactoe.module.scss": "/games/static/media/zero.9b8ae107.svg"
   }
 }
