@@ -17,7 +17,7 @@
 * CSS-modules (scss)
 * Create React App
 
-#Create React App information:
+# Create React App information:
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
