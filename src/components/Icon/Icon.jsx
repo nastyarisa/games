@@ -4,7 +4,7 @@ import s from './Icon.module.scss';
 export class Icon extends React.Component {
   render() {
     return (
-      <i className={`${s[this.props.name]} ${this.props.className}`}></i>
+      <i onClick={this.props.onClick} className={`${s[this.props.name]} ${this.props.className}`} ></i>
     )
   }
 }

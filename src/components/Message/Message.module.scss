@@ -18,7 +18,7 @@
   background-color: #ffc47f;
   background: radial-gradient(ellipse at center, #ffb686 0%, #ffb686 30%, #ec755d 100%);
   border-radius: 10px;
-  animation: open 1s ease-in-out;
+  animation: open 0.8s ease-in-out;
 }
 
 .header, .content, .footer {
@@ -73,9 +73,9 @@
 
 @keyframes open {
   from { 
-    transform: scale(0) rotate(-600deg);
+    transform: scale(0);
   }
   to { 
-    transform: scale(1) rotate(0deg);
+    transform: scale(1);
   }
 }
