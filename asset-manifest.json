@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/games/static/css/main.781dc306.chunk.css",
+    "main.css": "/games/static/css/main.bb5b5ae6.chunk.css",
     "main.js": "/games/static/js/main.57f5480b.chunk.js",
     "main.js.map": "/games/static/js/main.57f5480b.chunk.js.map",
     "runtime~main.js": "/games/static/js/runtime~main.ccf7e7e0.js",
@@ -8,9 +8,9 @@
     "static/js/2.880fa4f8.chunk.js": "/games/static/js/2.880fa4f8.chunk.js",
     "static/js/2.880fa4f8.chunk.js.map": "/games/static/js/2.880fa4f8.chunk.js.map",
     "index.html": "/games/index.html",
-    "precache-manifest.f648d2bb988854477edd5f11bc9934ed.js": "/games/precache-manifest.f648d2bb988854477edd5f11bc9934ed.js",
+    "precache-manifest.dcceb82e4c26a6f7a7b3dd313ef0d07f.js": "/games/precache-manifest.dcceb82e4c26a6f7a7b3dd313ef0d07f.js",
     "service-worker.js": "/games/service-worker.js",
-    "static/css/main.781dc306.chunk.css.map": "/games/static/css/main.781dc306.chunk.css.map",
+    "static/css/main.bb5b5ae6.chunk.css.map": "/games/static/css/main.bb5b5ae6.chunk.css.map",
     "static/media/Tictactoe.module.scss": "/games/static/media/zero.9b8ae107.svg"
   }
 }
