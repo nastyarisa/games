@@ -1,5 +1,5 @@
 .wrapper {
-    max-width: 300px;
+    max-width: 320px;
     width: 100%;
     margin-top: 5px;
     margin-bottom: 0;
@@ -9,8 +9,6 @@
     flex-direction: column;
     align-items: center;
     justify-content: stretch;
-    // background-color:#fff;
-    // background-color: #ffc625;
     border-radius: 4px;
     box-shadow: 0 10px 10px 0 rgba(0,0,0,0.04);
     &, & * {
@@ -27,31 +25,17 @@
 
 .header {
     display: flex;
-    // border-bottom: 1px solid gray;
-    // padding-top: 7px;
-    // padding-bottom: 23px;
-    // padding-left: 20px;
-    // padding-right: 20px;
     width: 100%;
     padding: 12px 15px 7px;
     box-sizing: border-box;
-    // background: #de20a2;
-    // background-color: #ae2be2;
-    // background: linear-gradient(180deg, #9522c2 0%, transparent 100%),
-    // linear-gradient(90deg, #9522c2 0%, #ae2be2 30%, #ae2be2 70%, #9522c2 100%);
-    // background-color: rgba(218,92,115,1);
-    background: radial-gradient(ellipse at center, rgba(164,174,235,1) 0%, rgba(119,99,230,1) 100%);
-    // border-top-left-radius: 4px;
-    // border-top-right-radius: 4px;
     justify-content: space-between;
     align-items: baseline;
     background: rgba(132,141,234,1);
-    background: -moz-radial-gradient(center, ellipse cover, rgba(132,141,234,1) 0%, rgba(119,99,230,1) 100%);
-    background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, rgba(132,141,234,1)), color-stop(100%, rgba(119,99,230,1)));
-    background: -webkit-radial-gradient(center, ellipse cover, rgba(132,141,234,1) 0%, rgba(119,99,230,1) 100%);
-    background: -o-radial-gradient(center, ellipse cover, rgba(132,141,234,1) 0%, rgba(119,99,230,1) 100%);
-    background: -ms-radial-gradient(center, ellipse cover, rgba(132,141,234,1) 0%, rgba(119,99,230,1) 100%);
-    background: radial-gradient(ellipse at center, rgba(132,141,234,1) 0%, rgba(119,99,230,1) 100%);
+    @media(min-width:600px) {
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        
+    }
 }
 
 .content {
@@ -72,32 +56,31 @@
     @media(max-width: 600px) {
         width: 100%;
         flex-grow: 1;
-        padding-top: 10%;
+        padding-top: 7%;
     }
 }
 
 .footer {
     width: 100%;
-    height: 50px;
-    min-height: 50px;
+    height: 60px;
+    min-height: 60px;
     margin-top: auto;
-    // background-color: #ae2be2;
-    // background: linear-gradient(90deg, #7e20a2 0%, #ae2be2 30%, #ae2be2 70%, #7e20a2 100%);
-    // background-color: #e9717b;
-    // background-color: rgba(218,92,115,1);
-    // background: radial-gradient(ellipse at center, rgba(164,174,235,1) 0%, rgba(119,99,230,1) 100%);
-    // border-bottom-left-radius: 4px;
-    // border-bottom-right-radius: 4px;
     display: flex;
     justify-content: center;
+    align-items: center;
     position: relative;
     background: rgba(132,141,234,1);
-    background: -moz-radial-gradient(center, ellipse cover, rgba(132,141,234,1) 0%, rgba(119,99,230,1) 100%);
-    background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, rgba(132,141,234,1)), color-stop(100%, rgba(119,99,230,1)));
-    background: -webkit-radial-gradient(center, ellipse cover, rgba(132,141,234,1) 0%, rgba(119,99,230,1) 100%);
-    background: -o-radial-gradient(center, ellipse cover, rgba(132,141,234,1) 0%, rgba(119,99,230,1) 100%);
-    background: -ms-radial-gradient(center, ellipse cover, rgba(132,141,234,1) 0%, rgba(119,99,230,1) 100%);
-    background: radial-gradient(ellipse at center, rgba(132,141,234,1) 0%, rgba(119,99,230,1) 100%);
+    background: -moz-radial-gradient(center, ellipse cover, #7983ea  0%, rgba(119,99,230,1) 100%);
+    background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, #7983ea), color-stop(100%, rgba(119,99,230,1)));
+    background: -webkit-radial-gradient(center, ellipse cover, #7983ea 0%, rgba(119,99,230,1) 100%);
+    background: -o-radial-gradient(center, ellipse cover, #7983ea 0%, rgba(119,99,230,1) 100%);
+    background: -ms-radial-gradient(center, ellipse cover, #7983ea 0%, rgba(119,99,230,1) 100%);
+    background: radial-gradient(ellipse at center, #7983ea 0%, rgba(119,99,230,1) 100%);
+    @media(min-width:600px) {
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+        
+    }
 }
 
 .title {
@@ -107,100 +90,86 @@
     font-weight: 500;
     text-align: center;
     border-radius: 11px;
-
-    @media(min-width: 600px) {
-        // margin: 5px 0 15px;
-    }
 }
 
 .radioGroup {
     width: 100%;
-    padding-left: 17px;
-    margin: 5px 0 20px;
+    margin: 10px 0 10px;
     display: flex;
-    justify-content: flex-start;
+    justify-content: space-between;
+    input[type="radio"] {
+        display: none;
+    }
+    .label {
+        cursor: pointer;
+        position: relative;
+        line-height: 26px;
+    }
+
+    .label:last-child {
+        margin-left: 5px;
+        margin-right: 5px;
+    }
+
+    .label::after, .label::before {
+        content: "";
+        display: block;
+        height: 20px;
+        width: 20px;
+        border-radius: 50%;
+        position: absolute;
+        top: 0px;
+        left: 5px;
+    }
+    .label::after {
+        width: 12px;
+        height: 12px;
+        left: 12px;
+        top: 7px;
+        background-color: transparent;
+        transition: background 0.5s;
+    }
+    .label::before {
+        border: 3px solid #fff;
+    }
+
+    input[type="radio"]:checked + .label::after {
+        background-color: #fff;
+
+    }
 }
 
 .label {
     display: flex;
-    color: #4e4e4e;
-    &:first-child {
-       margin-right: 15px; 
-    }
-    input[type="radio"] {
-        margin-right: 8px;
-    }
+    color: #fff;
+    font-size: 1.1em;
+    font-weight: 600;
+    cursor: pointer;
+    padding-left: 40px;
 }
 
 .table {
+    height: 280px;
     display: flex;
     flex-direction: column;
     margin-bottom: 5px;
-    // box-shadow: 0 0 5px 5px #6b372885;
-    background-color: #fee6ce;
+    background-color: #fff1eb;
     padding: 5px;
-    border-radius: 5px;
+    border-radius: 10px;
 }
 
 .row {
     display: flex;
     justify-content: center;
-    background-color: #fee6ce;
 }
 
 .cell {
     width: 80px;
     height: 80px;
-    // border: 2px solid #868686;
-    // border: 2px solid #bb6800;
-    // border: 2px solid #f36310;
     margin: 5px;
     cursor: pointer;
-    background-color: #e6d5a1;
-    border-radius: 5px;
-}
-// .row:first-child .cell {
-//     border-top-width: 4px;
-// }
-
-// .row:last-child .cell {
-//     border-bottom-width: 4px;
-// }
-
-// .row .cell:first-child {
-//     border-left-width: 4px;
-// }
-
-// .row .cell:last-child {
-//     border-right-width: 4px;
-// }
-
-// .row:first-child .cell:first-child {
-//     border-top-left-radius: 10px;
-// }
-
-// .row:first-child .cell:last-child {
-//     border-top-right-radius: 10px;
-// }
-// .row:last-child .cell:first-child {
-//     border-bottom-left-radius: 10px;
-// }
-
-// .row:last-child .cell:last-child {
-//     border-bottom-right-radius: 10px;
-// }
-
-.row:nth-child(2n + 1) {
-    .cell:nth-child(2n) {
-        // background-color: rgba(218, 131, 105, 0.3);
-        // background-color: rgba(245, 231, 166, 0.87);
-    }
-}
-.row:nth-child(2n) {
-    .cell:nth-child(2n + 1) {
-        // background-color: rgba(120,120,120,0.3);
-        // background-color: rgba(245, 231, 166, 0.87);
-    }
+    background-color: #fee6ce;
+    border-radius: 10px;
 }
 
 .btn {
@@ -210,42 +179,30 @@
     bottom: -5px;
     left: 50%;
     transform: translateX(-50%);
-    padding: 15px 20px;
+    padding: 10px 20px;
     border-radius: 15px;
     border: none;
     outline: none;
-    // background-color: #3d54d4;
-    // border:1px solid #ff531f;
-    background-color: #b263d8;
     color: #fff;
     font-size: 1.1em;
     font-weight: 600;
-    // font-size: 1em;
-    // font-weight: 400;
-    // font-family: inherit;
-    // text-transform: uppercase;
     cursor: pointer;
     box-shadow: 0 2px 5px 3px rgba(58, 20, 8, 0.058);
-    // background: linear-gradient(180deg, #ff9f71 5%, #ff8030 30%, #ff531f 70%, #c1382a 100%);
-// background: linear-gradient( center top, #ededed 5%, #dfdfdf 100% );
-// background: linear-gradient(10deg, rgb(66, 224, 172) 0%, rgb(102, 226, 195) 35%, rgba(106,187,255,1) 100%);
-    background: rgba(199,128,232,1);
-    background: -moz-radial-gradient(center, ellipse cover, rgba(199,128,232,1) 0%, rgba(173,94,213,1) 100%);
-    background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, rgba(199,128,232,1)), color-stop(100%, rgba(173,94,213,1)));
-    background: -webkit-radial-gradient(center, ellipse cover, rgba(199,128,232,1) 0%, rgba(173,94,213,1) 100%);
-    background: -o-radial-gradient(center, ellipse cover, rgba(199,128,232,1) 0%, rgba(173,94,213,1) 100%);
-    background: -ms-radial-gradient(center, ellipse cover, rgba(199,128,232,1) 0%, rgba(173,94,213,1) 100%);
-    background: radial-gradient(ellipse at center, rgba(199,128,232,1) 0%, rgba(173,94,213,1) 100%);
-    @media(max-width: 600px) {
-        bottom: 0;
-        // border-bottom-left-radius: 0;
-        // border-bottom-right-radius: 0;
-        border-radius: 5px;
+    background: rgba(150,221,191,1);
+    background: -moz-radial-gradient(center, ellipse cover, rgba(150,221,191,1) 0%, rgba(129,188,160,1) 100%);
+    background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, rgba(150,221,191,1)), color-stop(100%, rgba(129,188,160,1)));
+    background: -webkit-radial-gradient(center, ellipse cover, rgba(150,221,191,1) 0%, rgba(129,188,160,1) 100%);
+    background: -o-radial-gradient(center, ellipse cover, rgba(150,221,191,1) 0%, rgba(129,188,160,1) 100%);
+    background: -ms-radial-gradient(center, ellipse cover, rgba(150,221,191,1) 0%, rgba(129,188,160,1) 100%);
+    background: radial-gradient(ellipse at center, rgba(150,221,191,1) 0%, rgba(129,188,160,1) 100%);
+    &:hover, &:active {
+        box-shadow: 0 2px 8px 3px rgba(58, 20, 8, 0.198);
     }
-}
-.btn:hover {
-    // background-color: rgb(48, 68, 182);
-    background-color: #e64a1a;
+    @media(max-width: 600px) {
+        position: static;
+        transform: none;
+        border-radius: 10px;
+    }
 }
 
 .message {
@@ -281,5 +238,5 @@
 }
 
 .winner {
-    background-color: rgba(152, 239, 152, 0.8) !important;
+    background-color: rgba(198, 245, 198, 0.8) !important
 }

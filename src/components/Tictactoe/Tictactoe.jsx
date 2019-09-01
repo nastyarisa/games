@@ -101,22 +101,24 @@ export class Tictactoe extends React.Component {
   selectMode = () => {
     return (
       <div className={s.radioGroup}>
-        <label className={s.label}>
-          <input 
+        <input 
+            id="radio_bot"
             type="radio"
             checked={this.state.mode === "bot"} 
             name="mode"
             onChange={this.modeHandler}
           />
+        <label htmlFor="radio_bot" className={s.label}>
           С ботом
         </label>
-        <label className={s.label}>
-          <input 
+        <input 
+            id="radio_alone"
             type="radio" 
             checked={this.state.mode === "alone"} 
             name="mode"
             onChange={this.modeHandler}
           />
+        <label htmlFor="radio_alone" className={s.label}>
           Сам с собой
         </label>
       </div>
