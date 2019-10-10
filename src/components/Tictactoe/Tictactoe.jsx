@@ -20,33 +20,39 @@ export class Tictactoe extends React.Component {
   setNullData = () => {
     this.setState({ data: this.store.getNullData() })
   }
+
   /**
    * Обработка клика на клетку 
    * */
   loading = false;
-  handlerStroke = async (rIndex, cIndex) => {
+  handlerStroke = (rIndex, cIndex) => {
     if (this.loading) return;
     let target = this.state.data[rIndex][cIndex].name;
     if (target) return;
     if (this.gameOver()) return;
-    await this.setState((state, props) => {
+    this.setState((state) => {
       let newData = this.store.handlerStroke(rIndex, cIndex, state.data, state.mode);
       newData = this.store.setWinnerStyle(newData);
       return { data: newData }
-    });
+    }, this.handlerStrokeBot);
+  };
+
+  handlerStrokeBot = async () => {
     if (this.store.mode === "bot" && this.store.whoWalkNow === "cross") {
       if (this.gameOver()) return;
       this.loading = true;
       await this.timeout(200);
-      await this.setState((state, props) => {
+      this.setState((state) => {
         let newData = this.store.handlerStrokeBot(state.data);
         newData = this.store.setWinnerStyle(newData);
         return { data: newData }
+      }, () => {
+        this.loading = false;
       })
+    } else {
       this.loading = false;
-      console.log('loading', this.loading)
     }
-  };
+  }
 
   timeout = (ms) => {
     return new Promise(resolve => setTimeout(resolve, ms));
